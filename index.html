@@ -1,0 +1,99 @@
+<style>
+    textarea { width:90%;height:38%;border:1px solid #ccc; display: none; }
+    .tabs li {
+        display: inline-block;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    .tabs li.selected {
+        font-weight: bold;
+        border-color: black;
+    }
+</style>
+
+<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script type="application/javascript" src="haml.js"></script>
+<script type="application/javascript" src="sass.js"></script>
+
+<iframe style="width:90%;height:48%;border:1px solid #eee;"></iframe>
+<ul class="tabs">
+    <li name="haml">HAML</li>
+    <li name="sass">Sass</li>
+    <li name="coffeescript">CoffeeScript</li>
+</ul>
+
+<textarea id="haml"></textarea>
+<textarea id="sass"></textarea>
+<textarea id="coffeescript"></textarea>
+
+<script type="text/coffeescript">
+    $('.tabs li').click (e) ->
+        $('textarea').hide()
+        $('.tabs li.selected').removeClass('selected')
+
+        target = $(e.currentTarget).attr('name')
+        $(e.currentTarget).addClass('selected')
+        $("##{ target }").show()
+
+    css_content = ""
+    compileSass = ->
+        sass_source = $('#sass').val()
+        try
+            css_content = sass.render(sass_source)
+            console.log "#{new Date()} - compiled Sass"
+        catch error
+            console.log error
+
+    $('#sass').keyup (e) ->
+        if not (37 <= e.which <= 40)
+            compileSass()
+
+    html_content = ""
+    compileHAML = ->
+        haml_source = $('#haml').val()
+        try
+            html_content = Haml(haml_source)({})
+            console.log "#{new Date()} - compiled HAML"
+        catch error
+            console.log error
+    
+    $('#haml').keyup (e) ->
+        if not (37 <= e.which <= 40)
+            compileHAML()
+
+    
+    js_content = ""
+    compileCoffee = ->
+        coffee_source = $('#coffeescript').val()
+        try
+            js_content = CoffeeScript.compile coffee_source, bare: on
+            console.log "#{new Date()} - compiled"
+        catch error
+            console.log error
+
+    $('#coffeescript').keyup (e) ->
+        if not (37 <= e.which <= 40)
+            compileCoffee()
+
+
+    $('textarea').keyup (e) ->
+        if not (37 <= e.which <= 40)
+            data = "data:text/html;charset=utf-8,"
+            data += "\<style\>#{ css_content }\</style\>"
+            data += "#{ html_content }"
+            data += "\<script\>#{ js_content }\</script\>"
+            $('iframe').attr('src', encodeURI(data))
+            console.log encodeURI(data)
+            return
+
+    $('textarea').keydown (e) ->
+        if e.which is 9
+            e.preventDefault()
+    
+    $('.tabs li').first().click()
+
+</script>
+<script type="application/javascript" src="coffee_script-1.1.1-min.js"></script>
+
+
+http://www.cdolivet.com/index.php?page=editArea&sess=56437a3ba2ce044570552b48aa7a8276
