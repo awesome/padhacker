@@ -1,5 +1,8 @@
 <style>
     textarea { width:90%;height:38%;border:1px solid #ccc; display: none; }
+    .tabs {
+        display: inline-block;
+    }
     .tabs li {
         display: inline-block;
         border: 1px solid #ccc;
@@ -21,6 +24,7 @@
     <li name="sass">Sass</li>
     <li name="coffeescript">CoffeeScript</li>
 </ul>
+<input id="toggle-jquery" type="checkbox"> jQuery
 
 <textarea id="haml"></textarea>
 <textarea id="sass"></textarea>
@@ -76,15 +80,25 @@
             compileCoffee()
 
 
+    yes_jquery = false
+    
+    $('#toggle-jquery').click ->
+        yes_jquery = not yes_jquery
+        renderPreview()
+
     $('textarea').keyup (e) ->
         if not (37 <= e.which <= 40)
-            data = "data:text/html;charset=utf-8,"
-            data += "\<style\>#{ css_content }\</style\>"
-            data += "#{ html_content }"
-            data += "\<script\>#{ js_content }\</script\>"
-            $('iframe').attr('src', encodeURI(data))
-            console.log encodeURI(data)
-            return
+            renderPreview()
+
+    renderPreview = ->
+        data = "data:text/html;charset=utf-8,"
+        data += "\<style\>#{ css_content }\</style\>"
+        data += "#{ html_content }"
+        if yes_jquery
+            data += '\<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"\>\</script\>'
+        data += "\<script\>#{ js_content }\</script\>"
+        $('iframe').attr('src', encodeURI(data))
+        return
 
     $('textarea').keydown (e) ->
         if e.which is 9
