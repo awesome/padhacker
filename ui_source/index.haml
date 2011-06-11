@@ -3,6 +3,13 @@
     %head
         %title Pad Hacker
         %meta{:content=>"text/html; charset=utf-8", "http-equiv"=>"Content-Type"}
+
+        / %meta{:name=>"viewport", :content=>"width=device-width, minimum-scale=1, maximum-scale=1"}
+        / %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
+        / 
+        / %link{:rel=>"apple-touch-icon", :href=>"/static/images/apple-touch-icon.png"}
+        / %link{:rel=>"shortcut icon", :href=>"/static/images/favicon.ico"}
+
         %link{:href=>"/style.css", :rel=>"stylesheet", :media=>"screen, projection", :type=>"text/css"}
 
         %script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"}
@@ -19,15 +26,20 @@
     %body
         #controls
             %ul.tabs
-                %li{:name=>"haml"} HAML
+                %li{:name=>"haml"} Haml
                 %li{:name=>"sass"} Sass
                 %li{:name=>"coffee"} Coffee
             %input#jquery{:type=>"checkbox"}
                 jQuery
+            %input#underscore{:type=>"checkbox"}
+                Underscore
+            #instructions
+                JS-Haml + Sass + CoffeeScript = live preview
         #develop
             #source
                 %textarea#haml{:spellcheck=>false}
                 %textarea#sass{:spellcheck=>false}
                 %textarea#coffee{:spellcheck=>false}
-            %iframe#preview
-
+            #preview
+                %iframe
+                #errors

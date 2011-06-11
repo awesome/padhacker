@@ -3,6 +3,11 @@
   <head>
     <title>Pad Hacker</title>
     <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <!-- %meta{:name=>"viewport", :content=>"width=device-width, minimum-scale=1, maximum-scale=1"} -->
+    <!-- %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"} -->
+    <!--  -->
+    <!-- %link{:rel=>"apple-touch-icon", :href=>"/static/images/apple-touch-icon.png"} -->
+    <!-- %link{:rel=>"shortcut icon", :href=>"/static/images/favicon.ico"} -->
     <link href='/style.css' media='screen, projection' rel='stylesheet' type='text/css' />
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js' type='application/javascript'></script>
     <!-- /%script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"} -->
@@ -15,13 +20,19 @@
   <body>
     <div id='controls'>
       <ul class='tabs'>
-        <li name='haml'>HAML</li>
+        <li name='haml'>Haml</li>
         <li name='sass'>Sass</li>
         <li name='coffee'>Coffee</li>
       </ul>
       <input id='jquery' type='checkbox'>
         jQuery
       </input>
+      <input id='underscore' type='checkbox'>
+        Underscore
+      </input>
+      <div id='instructions'>
+        JS-Haml + Sass + CoffeeScript = live preview
+      </div>
     </div>
     <div id='develop'>
       <div id='source'>
@@ -29,7 +40,10 @@
         <textarea id='sass'></textarea>
         <textarea id='coffee'></textarea>
       </div>
-      <iframe id='preview'></iframe>
+      <div id='preview'>
+        <iframe></iframe>
+        <div id='errors'></div>
+      </div>
     </div>
   </body>
 </html>

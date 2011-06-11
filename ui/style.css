@@ -1,23 +1,41 @@
-/* line 1, ../ui_source/style.sass */
+/* line 5, ../ui_source/style.sass */
 body { font-family: Helvetica; font-weight: 300; }
 
-/* line 5, ../ui_source/style.sass */
-textarea { font-family: Menlo; width: 100%; height: 100%; }
+/* line 9, ../ui_source/style.sass */
+.tabs { display: inline-block; margin: 0 20px -1px 0; }
+/* line 12, ../ui_source/style.sass */
+.tabs li { -moz-border-radius-topleft: 5px; -webkit-border-top-left-radius: 5px; -o-border-top-left-radius: 5px; -ms-border-top-left-radius: 5px; -khtml-border-top-left-radius: 5px; border-top-left-radius: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-right-radius: 5px; -o-border-top-right-radius: 5px; -ms-border-top-right-radius: 5px; -khtml-border-top-right-radius: 5px; border-top-right-radius: 5px; width: 4em; height: 16px; display: inline-block; border: 1px solid #cccccc; text-align: center; padding: 8px; margin: 0; cursor: pointer; position: relative; z-index: 1; border-left-color: white; border-right-color: white; }
+/* line 26, ../ui_source/style.sass */
+.tabs li.selected { z-index: 2; font-weight: bold; border-bottom-color: white; }
+/* line 30, ../ui_source/style.sass */
+.tabs li.selected:before, .tabs li.selected:after { -moz-box-shadow: 0px 0px 5px 1px white; -webkit-box-shadow: 0px 0px 5px 1px white; -o-box-shadow: 0px 0px 5px 1px white; box-shadow: 0px 0px 5px 1px white; }
+/* line 32, ../ui_source/style.sass */
+.tabs li:before, .tabs li:after { border: 1px solid #cccccc; border-top: 0; width: 10px; height: 31px; content: " "; position: absolute; bottom: -1px; display: inline-block; }
+/* line 41, ../ui_source/style.sass */
+.tabs li:before { -moz-border-radius-bottomright: 5px; -webkit-border-bottom-right-radius: 5px; -o-border-bottom-right-radius: 5px; -ms-border-bottom-right-radius: 5px; -khtml-border-bottom-right-radius: 5px; border-bottom-right-radius: 5px; border-left: 0; left: -10px; }
+/* line 45, ../ui_source/style.sass */
+.tabs li:after { -moz-border-radius-bottomleft: 5px; -webkit-border-bottom-left-radius: 5px; -o-border-bottom-left-radius: 5px; -ms-border-bottom-left-radius: 5px; -khtml-border-bottom-left-radius: 5px; border-bottom-left-radius: 5px; border-right: 0; right: -10px; }
 
-/* line 10, ../ui_source/style.sass */
-.tabs { display: inline-block; margin-right: 20px; }
-/* line 13, ../ui_source/style.sass */
-.tabs li { width: 4em; height: 1em; display: inline-block; border: 1px solid #cccccc; text-align: center; padding: 0.5em; cursor: pointer; }
-/* line 21, ../ui_source/style.sass */
-.tabs li.selected { font-weight: bold; border-color: black; }
+/* line 51, ../ui_source/style.sass */
+#instructions { width: 400px; float: right; text-align: right; font-size: 0.9em; line-height: 140%; padding-top: 8px; color: #bbbbbb; }
 
-/* line 25, ../ui_source/style.sass */
+/* line 60, ../ui_source/style.sass */
 #develop { height: 600px; }
-/* line 27, ../ui_source/style.sass */
+/* line 62, ../ui_source/style.sass */
 #develop div { height: 100%; }
-/* line 29, ../ui_source/style.sass */
-#develop #source { background: red; }
-/* line 31, ../ui_source/style.sass */
-#develop #preview { background: white; height: 100%; }
-/* line 34, ../ui_source/style.sass */
+/* line 64, ../ui_source/style.sass */
+#develop #source, #develop #preview { border: 1px solid #cccccc; }
+/* line 66, ../ui_source/style.sass */
+#develop #source { overflow: hidden; }
+/* line 68, ../ui_source/style.sass */
+#develop #source textarea { border: 0; font-family: Menlo, Monaco, Inconsolata, monospace; width: 100%; height: 100%; outline: 0; margin-top: 10px; }
+/* line 76, ../ui_source/style.sass */
+#develop #preview { position: relative; }
+/* line 78, ../ui_source/style.sass */
+#develop #preview iframe { border: 0; background: white; height: 100%; width: 100%; }
+/* line 83, ../ui_source/style.sass */
+#develop #preview #errors { display: none; background: rgba(255, 0, 0, 0.8); border-bottom: 1px solid red; position: absolute; font-family: Menlo, Monaco, Inconsolata, monospace; padding: 1em; top: 0; left: 0; width: 100%; height: 10em; color: white; opacity: 0.9; }
+/* line 96, ../ui_source/style.sass */
 #develop .vsplitbar { width: 20px; cursor: resize; }
+/* line 99, ../ui_source/style.sass */
+#develop .vsplitbar:hover { background: #cccccc; }

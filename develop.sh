@@ -13,7 +13,7 @@
 			launch session "Default session"
 			tell the last session
 				set name to "Haml"
-				write text "watchhaml " & app_directory & "/ui_source " & app_directory & "/ui"
+				write text "haml ui_source/index.haml ui/index.html"
 			end tell
 
 			launch session "Default session"
@@ -41,7 +41,7 @@
 			tell the last session
 				set name to "Server"
 				write text "cd " & app_directory & "/ui/"
-				write text "staplesx runserver --cwd"
+				write text "staples runserver --cwd"
 			end tell
 
 		end tell
