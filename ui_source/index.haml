@@ -1,0 +1,33 @@
+!!! 5
+%html{:lang=>"en-us"}
+    %head
+        %title Pad Hacker
+        %meta{:content=>"text/html; charset=utf-8", "http-equiv"=>"Content-Type"}
+        %link{:href=>"/style.css", :rel=>"stylesheet", :media=>"screen, projection", :type=>"text/css"}
+
+        %script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"}
+        //%script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"}
+
+        %script{:type=>"application/javascript", :src=>"/lib/jquery.splitter-1.51.js"}
+
+        %script{:type=>"application/javascript", :src=>"/lib/coffee_script-1.1.1-min.js"}
+        %script{:type=>"application/javascript", :src=>"/lib/haml.js"}
+        %script{:type=>"application/javascript", :src=>"/lib/sass.js"}
+
+        %script{:type=>"application/javascript", :src=>"/app.js"}
+
+    %body
+        #controls
+            %ul.tabs
+                %li{:name=>"haml"} HAML
+                %li{:name=>"sass"} Sass
+                %li{:name=>"coffee"} Coffee
+            %input#jquery{:type=>"checkbox"}
+                jQuery
+        #develop
+            #source
+                %textarea#haml
+                %textarea#sass
+                %textarea#coffee
+            %iframe#preview
+

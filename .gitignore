@@ -1,0 +1,21 @@
+syntax: glob
+
+# Miscellaneous
+.sass-cache
+*.bak
+*.db
+*.kpf
+*.old
+*.pyc
+*.swp
+*~
+
+# Mac stuff
+.DS_Store
+
+# other scm
+.svn
+.CVS
+.hg*
+secrets.py
+.livereload

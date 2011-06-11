@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+  <head>
+    <title>Pad Hacker</title>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <link href='/style.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js' type='application/javascript'></script>
+    <!-- /%script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"} -->
+    <script src='/lib/jquery.splitter-1.51.js' type='application/javascript'></script>
+    <script src='/lib/coffee_script-1.1.1-min.js' type='application/javascript'></script>
+    <script src='/lib/haml.js' type='application/javascript'></script>
+    <script src='/lib/sass.js' type='application/javascript'></script>
+    <script src='/app.js' type='application/javascript'></script>
+  </head>
+  <body>
+    <div id='controls'>
+      <ul class='tabs'>
+        <li name='haml'>HAML</li>
+        <li name='sass'>Sass</li>
+        <li name='coffee'>Coffee</li>
+      </ul>
+      <input id='jquery' type='checkbox'>
+        jQuery
+      </input>
+    </div>
+    <div id='develop'>
+      <div id='source'>
+        <textarea id='haml'></textarea>
+        <textarea id='sass'></textarea>
+        <textarea id='coffee'></textarea>
+      </div>
+      <iframe id='preview'></iframe>
+    </div>
+  </body>
+</html>

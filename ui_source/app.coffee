@@ -1,36 +1,24 @@
-<style>
-    textarea { width:90%;height:38%;border:1px solid #ccc; display: none; }
-    .tabs {
-        display: inline-block;
-    }
-    .tabs li {
-        display: inline-block;
-        border: 1px solid #ccc;
-        padding: 10px;
-    }
-    .tabs li.selected {
-        font-weight: bold;
-        border-color: black;
-    }
-</style>
+init = ->
+    source =
+        haml: """%h1 Hello, world!
+    %p
+        Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+    %img{ src: "http://code.alecperkins.net/projector/images/cyan-small.jpg" }
+    """
+        sass: """
+    p
+      :font-family 'Trebuchet MS'
+      &.selected
+        :font-weight bold
+    """
+        coffee: """
+    p = $('p')
+    p.click ->
+        p.toggleClass 'selected'
+    """
+        has_jquery: true
 
-<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-<script type="application/javascript" src="haml.js"></script>
-<script type="application/javascript" src="sass.js"></script>
 
-<iframe style="width:90%;height:48%;border:1px solid #eee;"></iframe>
-<ul class="tabs">
-    <li name="haml">HAML</li>
-    <li name="sass">Sass</li>
-    <li name="coffeescript">CoffeeScript</li>
-</ul>
-<input id="toggle-jquery" type="checkbox"> jQuery
-
-<textarea id="haml"></textarea>
-<textarea id="sass"></textarea>
-<textarea id="coffeescript"></textarea>
-
-<script type="text/coffeescript">
     $('.tabs li').click (e) ->
         $('textarea').hide()
         $('.tabs li.selected').removeClass('selected')
@@ -45,6 +33,7 @@
         try
             css_content = sass.render(sass_source)
             console.log "#{new Date()} - compiled Sass"
+            renderPreview()
         catch error
             console.log error
 
@@ -58,20 +47,22 @@
         try
             html_content = Haml(haml_source)({})
             console.log "#{new Date()} - compiled HAML"
+            renderPreview()
         catch error
             console.log error
-    
+
     $('#haml').keyup (e) ->
         if not (37 <= e.which <= 40)
             compileHAML()
 
-    
+
     js_content = ""
     compileCoffee = ->
-        coffee_source = $('#coffeescript').val()
+        coffee_source = $('#coffee').val()
         try
             js_content = CoffeeScript.compile coffee_source, bare: on
             console.log "#{new Date()} - compiled"
+            renderPreview()
         catch error
             console.log error
 
@@ -81,14 +72,11 @@
 
 
     yes_jquery = false
-    
-    $('#toggle-jquery').click ->
+
+    $('#jquery').click ->
         yes_jquery = not yes_jquery
         renderPreview()
 
-    $('textarea').keyup (e) ->
-        if not (37 <= e.which <= 40)
-            renderPreview()
 
     renderPreview = ->
         data = "data:text/html;charset=utf-8,"
@@ -103,11 +91,21 @@
     $('textarea').keydown (e) ->
         if e.which is 9
             e.preventDefault()
-    
+
     $('.tabs li').first().click()
 
-</script>
-<script type="application/javascript" src="coffee_script-1.1.1-min.js"></script>
 
+    $('#develop').splitter()
+    for type in ['coffee','sass','haml']
+        $("textarea##{ type }").html source[type]
+        console.log $("textarea#{ type }")
+        console.log source[type]
+    yes_jquery = source.has_jquery
+    if source.has_jquery
+        $('#jquery').attr('checked',true)
+    compileCoffee()
+    compileSass()
+    compileHAML()
+    renderPreview()
 
-http://www.cdolivet.com/index.php?page=editArea&sess=56437a3ba2ce044570552b48aa7a8276
+$(document).ready init

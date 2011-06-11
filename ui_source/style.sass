@@ -1,0 +1,36 @@
+body
+    font-family: Helvetica
+    font-weight: 300
+
+textarea
+    font-family: Menlo
+    width: 100%
+    height: 100%
+
+.tabs
+    display: inline-block
+    margin-right: 20px
+    li
+        width: 4em
+        height: 1em
+        display: inline-block
+        border: 1px solid #ccc
+        text-align: center
+        padding: 0.5em
+        cursor: pointer
+        &.selected
+            font-weight: bold
+            border-color: black
+
+#develop
+    height: 600px
+    div
+        height: 100%
+    #source
+        background: red
+    #preview
+        background: white
+        height: 100%
+    .vsplitbar
+        width: 20px
+        cursor: resize
