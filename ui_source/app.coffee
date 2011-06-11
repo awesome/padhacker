@@ -30,6 +30,7 @@ init = ->
     css_content = ""
     compileSass = ->
         sass_source = $('#sass').val()
+        localStorage.setItem('sass',sass_source)
         try
             css_content = sass.render(sass_source)
             console.log "#{new Date()} - compiled Sass"
@@ -42,23 +43,25 @@ init = ->
             compileSass()
 
     html_content = ""
-    compileHAML = ->
+    compileHaml = ->
         haml_source = $('#haml').val()
+        localStorage.setItem('haml',haml_source)
         try
             html_content = Haml(haml_source)({})
-            console.log "#{new Date()} - compiled HAML"
+            console.log "#{new Date()} - compiled Haml"
             renderPreview()
         catch error
             console.log error
 
     $('#haml').keyup (e) ->
         if not (37 <= e.which <= 40)
-            compileHAML()
+            compileHaml()
 
 
     js_content = ""
     compileCoffee = ->
         coffee_source = $('#coffee').val()
+        localStorage.setItem('coffee',coffee_source)
         try
             js_content = CoffeeScript.compile coffee_source, bare: on
             console.log "#{new Date()} - compiled"
@@ -96,16 +99,25 @@ init = ->
 
 
     $('#develop').splitter()
+    
+    # sloppy!
     for type in ['coffee','sass','haml']
+        prev = localStorage.getItem(type)
+        if prev
+            console.log typeof prev
+            source[type] = prev
         $("textarea##{ type }").html source[type]
         console.log $("textarea#{ type }")
         console.log source[type]
+    if localStorage.getItem('has_jquery')
+        source.has_jquery = localStorage.getItem('has_jquery')
     yes_jquery = source.has_jquery
     if source.has_jquery
         $('#jquery').attr('checked',true)
+
     compileCoffee()
     compileSass()
-    compileHAML()
+    compileHaml()
     renderPreview()
 
 $(document).ready init

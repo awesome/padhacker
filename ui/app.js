@@ -1,7 +1,7 @@
 (function() {
   var init;
   init = function() {
-    var compileCoffee, compileHAML, compileSass, css_content, html_content, js_content, renderPreview, source, type, yes_jquery, _i, _len, _ref;
+    var compileCoffee, compileHaml, compileSass, css_content, html_content, js_content, prev, renderPreview, source, type, yes_jquery, _i, _len, _ref;
     source = {
       haml: "%h1 Hello, world!\n%p\n    Donec id elit non mi porta gravida at eget metus. Donec ullamcorper nulla non metus auctor fringilla. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.\n%img{ src: \"http://code.alecperkins.net/projector/images/cyan-small.jpg\" }",
       sass: "p\n  :font-family 'Trebuchet MS'\n  &.selected\n    :font-weight bold",
@@ -20,6 +20,7 @@
     compileSass = function() {
       var sass_source;
       sass_source = $('#sass').val();
+      localStorage.setItem('sass', sass_source);
       try {
         css_content = sass.render(sass_source);
         console.log("" + (new Date()) + " - compiled Sass");
@@ -35,12 +36,13 @@
       }
     });
     html_content = "";
-    compileHAML = function() {
+    compileHaml = function() {
       var haml_source;
       haml_source = $('#haml').val();
+      localStorage.setItem('haml', haml_source);
       try {
         html_content = Haml(haml_source)({});
-        console.log("" + (new Date()) + " - compiled HAML");
+        console.log("" + (new Date()) + " - compiled Haml");
         return renderPreview();
       } catch (error) {
         return console.log(error);
@@ -49,13 +51,14 @@
     $('#haml').keyup(function(e) {
       var _ref;
       if (!((37 <= (_ref = e.which) && _ref <= 40))) {
-        return compileHAML();
+        return compileHaml();
       }
     });
     js_content = "";
     compileCoffee = function() {
       var coffee_source;
       coffee_source = $('#coffee').val();
+      localStorage.setItem('coffee', coffee_source);
       try {
         js_content = CoffeeScript.compile(coffee_source, {
           bare: true
@@ -98,9 +101,17 @@
     _ref = ['coffee', 'sass', 'haml'];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       type = _ref[_i];
+      prev = localStorage.getItem(type);
+      if (prev) {
+        console.log(typeof prev);
+        source[type] = prev;
+      }
       $("textarea#" + type).html(source[type]);
       console.log($("textarea" + type));
       console.log(source[type]);
+    }
+    if (localStorage.getItem('has_jquery')) {
+      source.has_jquery = localStorage.getItem('has_jquery');
     }
     yes_jquery = source.has_jquery;
     if (source.has_jquery) {
@@ -108,7 +119,7 @@
     }
     compileCoffee();
     compileSass();
-    compileHAML();
+    compileHaml();
     return renderPreview();
   };
   $(document).ready(init);

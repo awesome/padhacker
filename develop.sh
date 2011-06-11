@@ -12,7 +12,7 @@
 
 			launch session "Default session"
 			tell the last session
-				set name to "HAML"
+				set name to "Haml"
 				write text "watchhaml " & app_directory & "/ui_source " & app_directory & "/ui"
 			end tell
 
