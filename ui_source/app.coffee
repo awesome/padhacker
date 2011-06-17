@@ -119,9 +119,9 @@ init = ->
                 data += "<style>#{ (-> css_content)() }</style>"
                 data += "#{ (-> html_content)() }"
                 if yes_jquery
-                    data += '<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>'
+                    data += '<script type="application/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>'
                 if yes_underscore
-                    data += '<script type="application/javascript" src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>'
+                    data += '<script type="application/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.6/underscore-min.js"></script>'
                 data += "<script>#{ js_content }</script>"
                 $('iframe').attr('src', encodeURI(data))
                 render_timeout = null
