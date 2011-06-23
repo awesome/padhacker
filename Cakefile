@@ -40,9 +40,24 @@ task 'pages', 'min js, compile sass, commit to pages', (options) ->
             pages()
 
     pages = ->
+        
+    
         if sass_done and coffee_done and haml_done
             console.log 'pages'
-            exec "mkdir tmp;cp -R ui/ tmp/", (error, stdout, stderr) ->
+            files_to_delete = [
+                'Cakefile'
+                'develop.sh'
+            ]
+            dirs_to_delete = [
+                'ui'
+                'ui_source'
+            ]
+            command = 'mv ui/* .;'
+            
+            command += "rm #{ f };" for f in files_to_delete
+            command += "rm -r #{ d };" for d in dirs_to_delete
+            
+            exec command, (error, stdout, stderr) ->
             #     exec "mv tmp/ui/ ../;rm -r tmp/", (error, stdout, stderr) ->
             #         exec "git checkout -B gh-pages;", (error, stdout, stderr) ->
 
