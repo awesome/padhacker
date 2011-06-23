@@ -12,8 +12,12 @@
 
         %link{:href=>"/style.css", :rel=>"stylesheet", :media=>"screen, projection", :type=>"text/css"}
 
-        %script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"}
-        //%script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"}
+        %script{:type=>"application/javascript", :src=>"http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.1/jquery.min.js"}
+
+        %script{:type=>"application/javascript", :async=>"true", :src=>"//www.google-analytics.com/ga.js"}
+        %script{:type=>"application/javascript"}
+            var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-9658094-1']);_gaq.push(['_trackPageview']);
+
 
         %script{:type=>"application/javascript", :src=>"/lib/jquery.splitter-1.51.js"}
 
