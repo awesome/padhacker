@@ -9,8 +9,11 @@
     <!-- %link{:rel=>"apple-touch-icon", :href=>"/static/images/apple-touch-icon.png"} -->
     <!-- %link{:rel=>"shortcut icon", :href=>"/static/images/favicon.ico"} -->
     <link href='/style.css' media='screen, projection' rel='stylesheet' type='text/css' />
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js' type='application/javascript'></script>
-    <!-- /%script{:type=>"application/javascript", :src=>"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"} -->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.1/jquery.min.js' type='application/javascript'></script>
+    <script async='true' src='//www.google-analytics.com/ga.js' type='application/javascript'></script>
+    <script type='application/javascript'>
+      var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-9658094-1']);_gaq.push(['_trackPageview']);
+    </script>
     <script src='/lib/jquery.splitter-1.51.js' type='application/javascript'></script>
     <script src='/lib/coffee_script-1.1.1-min.js' type='application/javascript'></script>
     <script src='/lib/haml.js' type='application/javascript'></script>
@@ -31,6 +34,7 @@
         Underscore
       </input>
       <div id='instructions'>
+        <a href='#' id='share-link'>share</a>
         JS-Haml + Sass + CoffeeScript = live preview
       </div>
     </div>
