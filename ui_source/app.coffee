@@ -258,15 +258,17 @@ init = ->
             console.log force
             t = 500
             render_timeout = setTimeout ->
-                data = "data:text/html;charset=utf-8,"
-                data += "<style>#{ (-> css_content)() }</style>"
+                data = "<style>#{ (-> css_content)() }</style>"
                 data += "#{ (-> html_content)() }"
                 if yes_jquery
                     data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>'
                 if yes_underscore
                     data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>'
                 data += "<script>#{ js_content }</script>"
-                $('iframe').attr('src', encodeURI(data))
+                frame = $('iframe')[0].contentWindow.document
+                frame.open()
+                frame.write(data)
+                frame.close()
                 render_timeout = null
             , t
         return

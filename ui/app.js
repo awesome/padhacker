@@ -1,13 +1,11 @@
 (function() {
   var fromURL, init, project_data, setShare, toURL;
-    if (typeof console !== "undefined" && console !== null) {
-    console;
-  } else {
+  if (typeof console === "undefined" || console === null) {
     console = {
       log: function() {},
       dir: function() {}
     };
-  };
+  }
   
 // from http://zapper.hodgers.com/files/javascript/lzw_test/
 var lzw = {
@@ -263,9 +261,8 @@ var lzw = {
         console.log(force);
         t = 500;
         render_timeout = setTimeout(function() {
-          var data;
-          data = "data:text/html;charset=utf-8,";
-          data += "<style>" + ((function() {
+          var data, frame;
+          data = "<style>" + ((function() {
             return css_content;
           })()) + "</style>";
           data += "" + ((function() {
@@ -278,7 +275,10 @@ var lzw = {
             data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>';
           }
           data += "<script>" + js_content + "</script>";
-          $('iframe').attr('src', encodeURI(data));
+          frame = $('iframe')[0].contentWindow.document;
+          frame.open();
+          frame.write(data);
+          frame.close();
           return render_timeout = null;
         }, t);
       }
