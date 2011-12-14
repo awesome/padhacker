@@ -4,20 +4,18 @@
         %title Pad Hacker
         %meta{:content=>"text/html; charset=utf-8", "http-equiv"=>"Content-Type"}
 
-        / %meta{:name=>"viewport", :content=>"width=device-width, minimum-scale=1, maximum-scale=1"}
-        / %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
-        / 
-        / %link{:rel=>"apple-touch-icon", :href=>"/static/images/apple-touch-icon.png"}
-        / %link{:rel=>"shortcut icon", :href=>"/static/images/favicon.ico"}
+        -#
+            %meta{:name=>"viewport", :content=>"width=device-width, minimum-scale=1, maximum-scale=1"}
+            %meta{:name=>"apple-mobile-web-app-capable", :content=>"yes"}
+            %link{:rel=>"apple-touch-icon", :href=>"/static/images/apple-touch-icon.png"}
+            %link{:rel=>"shortcut icon", :href=>"/static/images/favicon.ico"}
 
         %link{:href=>"/style.css", :rel=>"stylesheet", :media=>"screen, projection", :type=>"text/css"}
 
         %script{:type=>"application/javascript", :src=>"http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.1/jquery.min.js"}
 
-        %script{:type=>"application/javascript", :async=>"true", :src=>"//www.google-analytics.com/ga.js"}
         %script{:type=>"application/javascript"}
-            var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-9658094-1']);_gaq.push(['_trackPageview']);
-
+            var _gauges = ['track'];(function() {var t=document.createElement('script');t.type='text/javascript';t.async=true;t.id='gauges-tracker';t.setAttribute('data-site-id', '4ee8c49a613f5d5e7d000002');t.src='//secure.gaug.es/track.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(t,s);})();
 
         %script{:type=>"application/javascript", :src=>"/lib/jquery.splitter-1.51.js"}
 
