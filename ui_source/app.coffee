@@ -259,11 +259,11 @@ init = ->
             t = 500
             render_timeout = setTimeout ->
                 data = "<style>#{ (-> css_content)() }</style>"
-                data += "#{ (-> html_content)() }"
                 if yes_jquery
                     data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>'
                 if yes_underscore
                     data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>'
+                data += "#{ (-> html_content)() }"
                 data += "<script>#{ js_content }</script>"
                 frame = $('iframe')[0].contentWindow.document
                 frame.open()

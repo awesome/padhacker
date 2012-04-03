@@ -1,11 +1,16 @@
 (function() {
   var fromURL, init, project_data, setShare, toURL;
+
   if (typeof console === "undefined" || console === null) {
     console = {
-      log: function() {},
-      dir: function() {}
+      log: function() {}
     };
   }
+
+  ({
+    dir: function() {}
+  });
+
   
 // from http://zapper.hodgers.com/files/javascript/lzw_test/
 var lzw = {
@@ -108,6 +113,7 @@ var lzw = {
 	}
 }
 ;
+
   fromURL = function(ascii) {
     var data, escaped, lzwed, stringified;
     escaped = atob(ascii);
@@ -116,6 +122,7 @@ var lzw = {
     data = JSON.parse(stringified);
     return data;
   };
+
   toURL = function(data) {
     var ascii, escaped, lzwed, stringified;
     stringified = JSON.stringify(data);
@@ -124,13 +131,16 @@ var lzw = {
     ascii = btoa(escaped);
     return ascii;
   };
+
   project_data = {};
+
   setShare = function(key, value) {
     var url;
     project_data[key] = value;
     url = toURL(project_data);
     return $('#share-link').attr('href', "#" + url);
   };
+
   init = function() {
     var compileCoffee, compileHaml, compileSass, css_content, data_hash, defaults, hash, html_content, incoming_data, js_content, prev, renderPreview, render_timeout, source, type, yes_jquery, yes_underscore, _i, _len, _ref;
     defaults = {
@@ -180,9 +190,7 @@ var lzw = {
     };
     $('#sass').bind('keyup', function(e) {
       var _ref;
-      if (!((37 <= (_ref = e.which) && _ref <= 40))) {
-        return compileSass();
-      }
+      if (!((37 <= (_ref = e.which) && _ref <= 40))) return compileSass();
     });
     html_content = "";
     compileHaml = function() {
@@ -200,9 +208,7 @@ var lzw = {
     };
     $('#haml').bind('keyup', function(e) {
       var _ref;
-      if (!((37 <= (_ref = e.which) && _ref <= 40))) {
-        return compileHaml();
-      }
+      if (!((37 <= (_ref = e.which) && _ref <= 40))) return compileHaml();
     });
     js_content = "";
     compileCoffee = function() {
@@ -222,9 +228,7 @@ var lzw = {
     };
     $('#coffee').bind('keyup', function(e) {
       var _ref;
-      if (!((37 <= (_ref = e.which) && _ref <= 40))) {
-        return compileCoffee();
-      }
+      if (!((37 <= (_ref = e.which) && _ref <= 40))) return compileCoffee();
     });
     yes_jquery = false;
     yes_underscore = false;
@@ -254,9 +258,7 @@ var lzw = {
     render_timeout = null;
     renderPreview = function(force) {
       var t;
-      if (force == null) {
-        force = false;
-      }
+      if (force == null) force = false;
       if (!(render_timeout != null)) {
         console.log(force);
         t = 500;
@@ -265,15 +267,15 @@ var lzw = {
           data = "<style>" + ((function() {
             return css_content;
           })()) + "</style>";
-          data += "" + ((function() {
-            return html_content;
-          })());
           if (yes_jquery) {
             data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>';
           }
           if (yes_underscore) {
             data += '<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>';
           }
+          data += "" + ((function() {
+            return html_content;
+          })());
           data += "<script>" + js_content + "</script>";
           frame = $('iframe')[0].contentWindow.document;
           frame.open();
@@ -301,9 +303,7 @@ var lzw = {
       type = _ref[_i];
       if (!(incoming_data != null)) {
         prev = localStorage.getItem(type);
-        if (prev) {
-          source[type] = prev;
-        }
+        if (prev) source[type] = prev;
       }
       $("textarea#" + type).html(source[type]);
     }
@@ -317,5 +317,7 @@ var lzw = {
     compileHaml();
     return renderPreview(true);
   };
+
   $(document).ready(init);
+
 }).call(this);
