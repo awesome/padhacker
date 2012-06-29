@@ -1,5 +1,7 @@
 syntax: glob
 
+node_modules
+
 # Miscellaneous
 .sass-cache
 *.bak
