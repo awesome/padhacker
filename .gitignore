@@ -20,4 +20,5 @@ node_modules
 .CVS
 .hg*
 secrets.py
+local_settings.*
 .livereload

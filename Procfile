@@ -1,1 +1,0 @@
-web: node compiled/web.js

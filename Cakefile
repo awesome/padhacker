@@ -1,74 +1,97 @@
-# compile haml
-# compile coffee
-# compress js
-# compile sass
-# copy ui to tmp
-# checkout gh-pages
-# rebase gh-pages on master
-# move files from tmp to /
-# remove tmp
-# commit gh-pages
+{ spawn, exec }     = require 'child_process'
+util                = require 'util'
+fs                  = require 'fs'
+
+{ File }            = require 'file-utils'
+CoffeeScript        = require 'coffee-script'
+Jade                = require 'jade'
+Stylus              = require 'stylus'
+
+walk                = require 'walk'
+color               = require('ansi-color').set
 
 
-exec    = require('child_process').exec
-child   = null
+INPUT_DIR = "#{ __dirname }/client"
+OUTPUT_DIR = '.compiled_client'
 
-task 'pages', 'min js, compile sass, commit to pages', (options) ->
-    'haml'
-    sass_done = coffee_done = haml_done = false
-    
-    exec "haml ui_source/index.haml ui/index.html", (error, stdout, stderr) ->
-        console.log "stdout: #{ stdout }"
-        if not error?
-            haml_done = true
-            pages()
+file_list = []
 
-    exec "coffee -o ui/ -c ui_source/app.coffee", (error, stdout, stderr) ->
-        console.log "stdout: #{ stdout }"
-        if not error?
-            exec "closure --js_output_file ui/app-min.js --js ui/app.js", (error, stdout, stderr) ->
-                if not error?
-                    exec "mv ui/app-min.js  ui/app.js", (error, stdout, stderr) ->
-                        if not error?
-                            coffee_done = true
-                            pages()
+ensureOutputDir = (cb) ->
+    f = new File(OUTPUT_DIR)
+    f.remove (err, removed) ->
+        f.createDirectory (err, created) ->
+            cb()
+    return
 
-    exec "compass compile -f --sass-dir ui_source/ --css-dir ui/ -s compressed", (error, stdout, stderr) ->
-        console.log "stdout: #{ stdout }"
-        if not error?
-            sass_done = true
-            pages()
+discoverFiles = (cb) ->
+    walker = walk.walk INPUT_DIR,
+        followLinks: false
 
-    pages = ->
-        
-    
-        if sass_done and coffee_done and haml_done
-            console.log 'pages'
-            files_to_delete = [
-                'Cakefile'
-                'develop.sh'
-            ]
-            dirs_to_delete = [
-                'ui'
-                'ui_source'
-            ]
-            command = 'mv ui/* .;'
-            
-            command += "rm #{ f };" for f in files_to_delete
-            command += "rm -r #{ d };" for d in dirs_to_delete
-            
-            exec command, (error, stdout, stderr) ->
-            #     exec "mv tmp/ui/ ../;rm -r tmp/", (error, stdout, stderr) ->
-            #         exec "git checkout -B gh-pages;", (error, stdout, stderr) ->
+    walker.on 'file', (root, stat, next) ->
+        file_list.push(root + '/' + stat.name)
+        next()
 
-            # checkout
+    walker.on 'end', ->
+        console.log "Found #{ file_list.length } files"
+        cb()
 
-    # "closure --js_output_file templates/js/#{ file }-min.js --js templates/js/#{ file }.js" for file in js_files)
-    # commands.push "compass compile -f -s compressed"
+processFiles = ->
 
-    # for command in commands
-    #     exec command, (error, stdout, stderr) ->
-    #         console.log "stdout: #{ stdout }"
-    #         console.log "stderr: #{ stderr }"
-    #         if error?
-    #             console.log "exec error: #{ error }"
+    for file in file_list
+        file_ext = file.split('.')
+        file_ext = file_ext[file_ext.length - 1]
+        switch file_ext
+            when 'jade'
+                processJade(file)
+            when 'coffee'
+                processCoffee(file)
+            when 'styl'
+                processStylus(file)
+            else
+                processOther(file)
+    return
+
+writeOutput = (output_file, output) ->
+    console.log 'making', output_file
+    f = File(output_file)
+    console.log 'made', output_file, f
+    f.createNewFile (err, created) ->
+        console.log err, created
+        fs.writeFile(f, output)
+
+processJade = (file) ->
+    output_file = file.replace(INPUT_DIR, OUTPUT_DIR).replace('.jade', '.html')
+    fs.readFile file, (err, source) ->
+        console.log file.replace(INPUT_DIR, '')
+        templateFn = Jade.compile source.toString(),
+            pretty: true
+        output = templateFn()
+        writeOutput(output_file, output)
+
+processCoffee = (file) ->
+    output_file = file.replace(INPUT_DIR, OUTPUT_DIR).replace('.coffee', '.js')
+    fs.readFile file, (err, source) ->
+        console.log file.replace(INPUT_DIR, '')
+        output = CoffeeScript.compile(source.toString())
+        writeOutput(output_file, output)
+
+processStylus = (file) ->
+    output_file = file.replace(INPUT_DIR, OUTPUT_DIR).replace('.styl', '.css')
+    fs.readFile file, (err, source) ->
+        console.log file.replace(INPUT_DIR, '')
+        Stylus.render source.toString(), (err, output) ->
+            writeOutput(output_file, output)
+
+processOther = (file) ->
+    output_file = file.replace(INPUT_DIR, OUTPUT_DIR)
+    fs.readFile file, (err, output) ->
+        console.log file.replace(INPUT_DIR, '')
+        writeOutput(output_file, output)
+
+
+
+task 'watch', 'Watch and compile shit', (opts) ->
+    ensureOutputDir ->
+        discoverFiles ->
+            processFiles()
+
