@@ -36,28 +36,24 @@ discoverFiles = (cb) ->
         console.log "Found #{ file_list.length } files"
         cb()
 
-processFiles = ->
-
-    for file in file_list
-        file_ext = file.split('.')
-        file_ext = file_ext[file_ext.length - 1]
-        switch file_ext
-            when 'jade'
-                processJade(file)
-            when 'coffee'
-                processCoffee(file)
-            when 'styl'
-                processStylus(file)
-            else
-                processOther(file)
+processFile = (file) ->
+    file_ext = file.split('.')
+    file_ext = file_ext[file_ext.length - 1]
+    switch file_ext
+        when 'jade'
+            processJade(file)
+        when 'coffee'
+            processCoffee(file)
+        when 'styl'
+            processStylus(file)
+        else
+            processOther(file)
     return
 
 writeOutput = (output_file, output) ->
     console.log 'making', output_file
     paths = output_file.split('/')
     file_name = paths.pop()
-    # console.log paths
-    # console.log file_name
 
     File.mkdirs paths.join('/'), '0755', ->
         fs.writeFile(output_file, output)
@@ -93,10 +89,18 @@ processOther = (file) ->
         console.log file.replace(INPUT_DIR, '')
         writeOutput(output_file, output)
 
-
+watchFiles = ->
+    for file in file_list
+        do ->
+            this_file = file
+            fs.watch this_file, (event, filename) ->
+                console.log event, filename
+                processFile(this_file)
 
 task 'watch', 'Watch and compile shit', (opts) ->
     ensureOutputDir ->
         discoverFiles ->
-            processFiles()
+            for file in file_list
+                processFile(file)
+            watchFiles()
 
