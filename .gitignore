@@ -1,6 +1,7 @@
 syntax: glob
 
 node_modules
+.compiled_client
 
 # Miscellaneous
 .sass-cache

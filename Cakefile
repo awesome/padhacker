@@ -2,7 +2,7 @@
 util                = require 'util'
 fs                  = require 'fs'
 
-{ File }            = require 'file-utils'
+File                = require 'file'
 CoffeeScript        = require 'coffee-script'
 Jade                = require 'jade'
 Stylus              = require 'stylus'
@@ -17,10 +17,11 @@ OUTPUT_DIR = '.compiled_client'
 file_list = []
 
 ensureOutputDir = (cb) ->
-    f = new File(OUTPUT_DIR)
-    f.remove (err, removed) ->
-        f.createDirectory (err, created) ->
-            cb()
+    File.walkSync OUTPUT_DIR, (err, path, dirs, files) ->
+        console.log err, path, dirs, files
+        # files.forEach(fs.unlink)
+    cb()
+    
     return
 
 discoverFiles = (cb) ->
@@ -53,11 +54,15 @@ processFiles = ->
 
 writeOutput = (output_file, output) ->
     console.log 'making', output_file
-    f = File(output_file)
-    console.log 'made', output_file, f
-    f.createNewFile (err, created) ->
-        console.log err, created
-        fs.writeFile(f, output)
+    paths = output_file.split('/')
+    file_name = paths.pop()
+    # console.log paths
+    # console.log file_name
+
+    File.mkdirs paths.join('/'), '0755', ->
+        fs.writeFile(output_file, output)
+        console.log 'made', paths
+
 
 processJade = (file) ->
     output_file = file.replace(INPUT_DIR, OUTPUT_DIR).replace('.jade', '.html')
