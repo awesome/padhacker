@@ -1,1 +1,4 @@
-console.log 'app.coffee'
+_.templateSettings =
+    evaluate    : /\{%(.+?)%\}/g
+    interpolate : /\{\{(.+?)\}\}/g
+
