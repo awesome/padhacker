@@ -17,9 +17,9 @@ OUTPUT_DIR = '.compiled_client'
 file_list = []
 
 ensureOutputDir = (cb) ->
-    File.walkSync OUTPUT_DIR, (err, path, dirs, files) ->
-        console.log err, path, dirs, files
-        # files.forEach(fs.unlink)
+    File.walkSync OUTPUT_DIR, (path, dirs, files) ->
+        files.forEach (f) ->
+            fs.unlink(path + '/' + f)
     cb()
     
     return
@@ -72,6 +72,8 @@ processJade = (file) ->
 processCoffee = (file) ->
     output_file = file.replace(INPUT_DIR, OUTPUT_DIR).replace('.coffee', '.js')
     fs.readFile file, (err, source) ->
+        if err?
+            throw err
         console.log file.replace(INPUT_DIR, '')
         output = CoffeeScript.compile(source.toString())
         writeOutput(output_file, output)
